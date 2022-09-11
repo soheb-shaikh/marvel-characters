@@ -1,4 +1,4 @@
-package com.shaikhsoheb.marvelcharactersapp
+package com.shaikhsoheb.marvelcharactersapp.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
