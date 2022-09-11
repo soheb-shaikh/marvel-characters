@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.shaikhsoheb.marvelcharactersapp.ui.theme.MarvelCharactersAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +25,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    // Trial code for Swipe Refresh
+                    SwipeRefresh()
                 }
             }
         }
@@ -30,14 +34,24 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun SwipeRefresh() {
+    val list = List(1000) { "$it"}
+    SwipeRefresh(
+        state = rememberSwipeRefreshState( true ),
+        onRefresh = {  },
+    ) {
+        LazyColumn {
+            items(list.size) { index ->
+                Text(text = index.toString())
+            }
+        }
+    }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun DefaultPreview() {
     MarvelCharactersAppTheme {
-        Greeting("Android")
+        SwipeRefresh()
     }
 }
