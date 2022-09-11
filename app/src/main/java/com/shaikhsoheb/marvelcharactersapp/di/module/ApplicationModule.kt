@@ -16,11 +16,8 @@ import javax.inject.Singleton
 class ApplicationModule {
 
     companion object {
-        private const val BASE_URL = "http://gateway.marvel.com"
+        private const val BASE_URL = "http://gateway.marvel.com/v1/public"
     }
-
-    @Provides
-    fun providesBaseUrl() = BASE_URL
 
     @Provides
     @Singleton
@@ -37,7 +34,7 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient, BASE_URL: String): Retrofit =
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
             .baseUrl(BASE_URL)
