@@ -1,6 +1,7 @@
 package com.shaikhsoheb.marvelcharactersapp.data.local
 
 import androidx.room.*
+import com.shaikhsoheb.marvelcharactersapp.data.local.model.MarvelCharacterL
 import kotlinx.coroutines.flow.Flow
 
 /**
