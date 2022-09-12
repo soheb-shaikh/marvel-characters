@@ -5,6 +5,9 @@ import androidx.room.Room
 import com.shaikhsoheb.marvelcharactersapp.BuildConfig
 import com.shaikhsoheb.marvelcharactersapp.data.local.MarvelCharacterDatabase
 import com.shaikhsoheb.marvelcharactersapp.data.remote.RequestInterceptor
+import com.shaikhsoheb.marvelcharactersapp.data.remote.api.MarvelCharactersApi
+import com.shaikhsoheb.marvelcharactersapp.data.remote.api.MarvelCharactersApiHelper
+import com.shaikhsoheb.marvelcharactersapp.data.remote.api.MarvelCharactersApiHelperImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +17,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 @Module
@@ -21,7 +25,7 @@ import javax.inject.Singleton
 class ApplicationModule {
 
     companion object {
-        private const val BASE_URL = "http://gateway.marvel.com/v1/public"
+        private const val BASE_URL = "http://gateway.marvel.com/"
     }
 
     @Provides
@@ -47,6 +51,14 @@ class ApplicationModule {
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .build()
+
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): MarvelCharactersApi = retrofit.create()
+
+    @Provides
+    @Singleton
+    fun provideApiHelper(apiHelperImpl: MarvelCharactersApiHelperImpl) = apiHelperImpl
 
     @Provides
     @Singleton
