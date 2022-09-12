@@ -3,12 +3,10 @@ package com.shaikhsoheb.marvelcharactersapp.data.remote
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * An interceptor which add query parameters: public key, ts and hash into base url.
  */
-@Singleton
 class RequestInterceptor @Inject constructor(): Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val original = chain.request()
