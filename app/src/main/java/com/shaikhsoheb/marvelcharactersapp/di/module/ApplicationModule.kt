@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.shaikhsoheb.marvelcharactersapp.BuildConfig
 import com.shaikhsoheb.marvelcharactersapp.data.local.MarvelCharacterDatabase
+import com.shaikhsoheb.marvelcharactersapp.data.remote.RequestInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,14 +26,16 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient() = if (BuildConfig.DEBUG) {
+    fun provideOkHttpClient(requestInterceptor: RequestInterceptor) = if (BuildConfig.DEBUG) {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         OkHttpClient.Builder()
+            .addInterceptor(requestInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
     } else {
         OkHttpClient.Builder()
+            .addInterceptor(requestInterceptor)
             .build()
     }
 
