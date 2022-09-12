@@ -1,9 +1,13 @@
 package com.shaikhsoheb.marvelcharactersapp.di.module
 
+import android.content.Context
+import androidx.room.Room
 import com.shaikhsoheb.marvelcharactersapp.BuildConfig
+import com.shaikhsoheb.marvelcharactersapp.data.local.MarvelCharacterDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -40,4 +44,16 @@ class ApplicationModule {
             .baseUrl(BASE_URL)
             .client(okHttpClient)
             .build()
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context) = Room.databaseBuilder(
+            context,
+            MarvelCharacterDatabase::class.java,
+            "marvel_characters_db"
+        ).build()
+
+    @Provides
+    @Singleton
+    fun provideDao(database: MarvelCharacterDatabase) = database.getMarvelCharacterDao()
 }
