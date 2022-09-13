@@ -7,7 +7,7 @@ import javax.inject.Inject
 class MarvelCharactersApiHelperImpl @Inject constructor(
     private val api: MarvelCharactersApi
 ): MarvelCharactersApiHelper {
-    override suspend fun getCharacters(): MarvelApiResponse<MarvelCharacterR> {
+    override suspend fun getCharacters(): MarvelApiResponse<MarvelCharacterR?> {
         return api.getCharacters()
     }
 }

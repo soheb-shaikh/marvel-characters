@@ -1,5 +1,6 @@
 package com.shaikhsoheb.marvelcharactersapp.data.remote
 
+import com.shaikhsoheb.marvelcharactersapp.data.remote.api.MarvelApiConstants
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

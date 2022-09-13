@@ -1,4 +1,4 @@
-package com.shaikhsoheb.marvelcharactersapp.data.remote
+package com.shaikhsoheb.marvelcharactersapp.data.remote.api
 
 object MarvelApiConstants {
 

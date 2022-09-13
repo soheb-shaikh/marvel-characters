@@ -58,7 +58,7 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideApiHelper(apiHelperImpl: MarvelCharactersApiHelperImpl) = apiHelperImpl
+    fun provideApiHelper(apiHelperImpl: MarvelCharactersApiHelperImpl): MarvelCharactersApiHelper = apiHelperImpl
 
     @Provides
     @Singleton
