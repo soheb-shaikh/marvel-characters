@@ -27,14 +27,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MarvelCharactersViewModel by viewModels()
-    
-    private var status: Status = Status.LOADING
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.characters.observe(this) {
-            status = it.status
-        }
         setContent {
             MarvelCharactersAppTheme {
                 // A surface container using the 'background' color from the theme
