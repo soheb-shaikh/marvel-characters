@@ -2,10 +2,9 @@ package com.shaikhsoheb.marvelcharactersapp.viewmodel
 
 import androidx.lifecycle.*
 import com.shaikhsoheb.marvelcharactersapp.data.MarvelCharacterResource
+import com.shaikhsoheb.marvelcharactersapp.data.local.model.MarvelCharacterL
 import com.shaikhsoheb.marvelcharactersapp.data.remote.NetworkHelper
-import com.shaikhsoheb.marvelcharactersapp.data.remote.model.MarvelCharacterR
 import com.shaikhsoheb.marvelcharactersapp.repository.MarvelCharactersRepository
-import com.shaikhsoheb.marvelcharactersapp.repository.mapToMarvelCharacterL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,9 +14,10 @@ class MarvelCharactersViewModel @Inject constructor(
     private val networkHelper: NetworkHelper,
     private val repository: MarvelCharactersRepository
 ): ViewModel() {
-    private val charactersR = MutableLiveData<MarvelCharacterResource<List<MarvelCharacterR>>>()
+    private val _characters = MutableLiveData<MarvelCharacterResource<List<MarvelCharacterL>>>()
 
-    val characters = repository.loadCharactersList().asLiveData()
+    val characters: LiveData<MarvelCharacterResource<List<MarvelCharacterL>>>
+        get() { return _characters }
 
     val bookMarkedCharacters = repository.getBookmarkedCharacters().asLiveData()
 
@@ -27,30 +27,13 @@ class MarvelCharactersViewModel @Inject constructor(
 
     fun fetchCharacters() {
         viewModelScope.launch {
-            charactersR.postValue(MarvelCharacterResource.loading(null))
+            _characters.postValue(MarvelCharacterResource.loading(null))
             if (networkHelper.isNetworkConnected()) {
-                repository.loadCharactersFromApi().let {
-                    if (it.code == 200) {
-                        try {
-                            val charactersList = it.data.results as? List<MarvelCharacterR>
-                            if (charactersList.isNullOrEmpty()) {
-                                charactersR.postValue(MarvelCharacterResource.error("List Unavailable", null))
-                            } else {
-                                charactersR.postValue(MarvelCharacterResource.success(charactersList))
-                                val charactersLocal = charactersList.map { character ->
-                                    character.mapToMarvelCharacterL()
-                                }
-                                repository.saveCharacters(charactersLocal)
-                            }
-                        } catch (e: Exception) {
-                            charactersR.postValue(MarvelCharacterResource.error("List Unavailable", null))
-                        }
-                    } else {
-                        charactersR.postValue(MarvelCharacterResource.error(it.status, null))
-                    }
+                repository.loadCharacters().let {
+                    _characters.postValue(it)
                 }
             } else {
-                charactersR.postValue(MarvelCharacterResource.error("No Internet", null))
+                _characters.postValue(MarvelCharacterResource.error("No Internet", null))
             }
         }
     }

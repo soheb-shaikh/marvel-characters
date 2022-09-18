@@ -11,5 +11,5 @@ import retrofit2.http.Query
  */
 interface MarvelCharactersApi {
     @GET("/v1/public/characters")
-    fun getCharacters(@Query("limit") limit: Int = 10): MarvelApiResponse<MarvelCharacterR?>
+    suspend fun getCharacters(@Query("limit") limit: Int = 10): MarvelApiResponse<MarvelCharacterR?>
 }

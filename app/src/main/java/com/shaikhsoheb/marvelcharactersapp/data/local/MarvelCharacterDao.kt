@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface MarvelCharacterDao {
 
     @Query("SELECT * FROM marvel_character")
-    fun getListOfCharacters(): Flow<List<MarvelCharacterL>>
+    fun getListOfCharacters(): List<MarvelCharacterL>
 
     @Query("SELECT * FROM marvel_character WHERE bookmark = 1")
     fun getBookMarkedCharacters(): Flow<List<MarvelCharacterL>>
